@@ -1,61 +1,47 @@
-package Lab1_Task1;
-
-import java.util.Arrays;
+package Lab3_Task1;
 
 public class MyArray {
+	private int[] array;
 
-	    private int[] array;
-
-	    public MyArray(int[] array) {
-	        this.array = array;
-	    }
-
-	    // Method to reverse the array like a mirror
-	    public int[] mirror() {
-	        int[] mirroredArray = new int[array.length * 2];
-	        int j = array.length - 1;
-
-	        for (int i = 0; i < array.length; i++) {
-	            mirroredArray[i] = array[i];
-	            mirroredArray[j] = array[i];
-	            j--;
-	        }
-
-	        return mirroredArray;
-	    }
-
-	    // Method to remove duplicate elements and return a new array
-	    public int[] removeDuplicates() {
-	        int[] uniqueArray = new int[array.length];
-	        int count = 0;
-
-	        for (int i = 0; i < array.length; i++) {
-	            boolean isDuplicate = false;
-
-	            for (int j = 0; j < count; j++) {
-	                if (array[i] == uniqueArray[j]) {
-	                    isDuplicate = true;
-	                    break;
-	                }
-	            }
-
-	            if (!isDuplicate) {
-	                uniqueArray[count] = array[i];
-	                count++;
-	            }
-	        }
-
-	        return Arrays.copyOf(uniqueArray, count);
-	    }
-
-	    public static void main(String[] args) {
-	        int[] inputArray = {1, 3, 5, 1, 3, 7, 9, 8};
-	        MyArray myArray = new MyArray(inputArray);
-
-	        int[] mirroredResult = myArray.mirror();
-	        System.out.println("Mirror result: " + Arrays.toString(mirroredResult));
-
-	        int[] uniqueResult = myArray.removeDuplicates();
-	        System.out.println("Remove duplicates result: " + Arrays.toString(uniqueResult));
-	    }
+	public MyArray(int[] array) {
+		this.array = array;
 	}
+
+	public int iterativeLinearSearch(int target) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == target) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public int recursiveLinearSearch(int target) {
+		return recursiveLinearSearchHelper(target, 0);
+	}
+
+	private int recursiveLinearSearchHelper(int target, int index) {
+		if (index >= array.length) {
+			return -1;
+		}
+		if (array[index] == target) {
+			return index;
+		}
+		return recursiveLinearSearchHelper(target, index + 1);
+	}
+
+	public static void main(String[] args) {
+		int[] array = { 12, 10, 9, 45, 2, 10, 10, 45 };
+		MyArray myArray = new MyArray(array);
+		int target1 = 45;
+		int target2 = 15;
+		int result1 = myArray.iterativeLinearSearch(target1);
+		int result2 = myArray.iterativeLinearSearch(target2);
+		System.out.println("Iterative Search - Target 1: " + result1);
+		System.out.println("Iterative Search - Target 2: " + result2);
+		int result3 = myArray.recursiveLinearSearch(target1);
+		int result4 = myArray.recursiveLinearSearch(target2);
+		System.out.println("Recursive Search - Target 1: " + result3);
+		System.out.println("Recursive Search - Target 2: " + result4);
+	}
+}
